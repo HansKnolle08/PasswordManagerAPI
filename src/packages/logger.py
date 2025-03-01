@@ -1,4 +1,4 @@
-# /src/packages/log.py
+# /src/packages/logger.py
 # Copyright (C) 2025 H.-C. Knolle
 # Licensed under the MIT License
 # Simple logging message module

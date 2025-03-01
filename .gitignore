@@ -1,0 +1,13 @@
+# /.gitignore
+# Copyright (C) 2025 H.-C. Knolle
+# Licensed under the MIT License
+# .gitignore for the project
+
+# Ignore all created .json files
+/src/json/data/*.json
+
+# Don't ignore template.json
+!/src/json/data/template.json
+
+# Ignore Python Cache .pyc files
+*.pyc

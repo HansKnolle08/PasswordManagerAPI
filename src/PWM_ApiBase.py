@@ -1,4 +1,4 @@
-# /src/pwm-api-base.py
+# /src/PWM_ApiBase.py
 # Copyright (C) 2025 H.-C. Knolle
 # Licensed under the MIT License
 # PasswordManagerAPI Base Source Code
@@ -9,50 +9,51 @@
 import json
 import os
 import hashlib
-from packages.log import log
+from packages.logger import log
+from packages.config import json_base_dir
 
 #################################
 # PasswordManagerAPI Main-Class #
 #################################
 class PasswordManagerAPI:
-    def __init__(self: any, data_dir: str = "C:\\Users\\Hansisi\\Documents\\Privat\\Dev\\Python\\PasswordManagerAPI\\src\\json") -> None:
+    def __init__(self: any, data_dir: str = json_base_dir) -> None:
         self.data_dir: str = data_dir
         self.users_file: str = os.path.join(self.data_dir, "users.json")
         self.active_user: str = None
         self._load_users()
     
     def _load_users(self: any) -> None:
-        """Load the userlist from users.json or create a new one."""
-        log("Lade Benutzerliste...")
+        """Load the userlist from users.json or create a new file."""
+        log("Load Userlist...")
         if os.path.exists(self.users_file):
             with open(self.users_file, "r", encoding="utf-8") as file:
                 try:
                     self.users = json.load(file)
                 except json.JSONDecodeError:
-                    log("Fehler beim Laden der Benutzerliste. Erstelle eine neue Datei.")
-                    self.users = {}
+                    log("Error with loading userlist. Creating new file.")
+                    self.users: dict = {}
         else:
-            log("Keine Benutzerliste gefunden. Erstelle eine neue Datei.")
-            self.users = {}
+            log("No userlist found. Creating new file.")
+            self.users: dict = {}
             self._save_users()
     
-    def _save_users(self):
-        """Speichert die aktuelle Benutzerliste in users.json."""
-        log("Speichere Benutzerliste...")
+    def _save_users(self: any) -> None:
+        """Saving the current userlist in users.json."""
+        log("Saving userlist...")
         with open(self.users_file, "w", encoding="utf-8") as file:
             json.dump(self.users, file, indent=4)
     
-    def _hash_password(self, password):
-        """Erstellt einen sicheren Hash des Passworts."""
+    def _hash_password(self: any, password: str) -> None:
+        """Creates secure sha256 hash of user password."""
         return hashlib.sha256(password.encode()).hexdigest()
     
-    def register_user(self, username, email, password):
-        """Erstellt einen neuen Benutzer und speichert ihn in users.json."""
+    def register_user(self: any, username: str, email: str, password: str) -> None:
+        """Creates new user and saves it to users.json."""
         if username in self.users:
-            log(f"Fehler: Benutzername '{username}' ist bereits vergeben.")
-            raise ValueError("Benutzername bereits vergeben.")
+            log(f"Error: Username '{username}' already in use.")
+            raise ValueError(f"Username '{username}' already in use.")
         
-        log(f"Registriere neuen Benutzer: {username}")
+        log(f"Regiszer new user: {username}")
         self.users[username] = {
             "email": email,
             "password": self._hash_password(password)
@@ -63,17 +64,16 @@ class PasswordManagerAPI:
         if not os.path.exists(user_data_file):
             with open(user_data_file, "w", encoding="utf-8") as file:
                 json.dump({"accounts": {}}, file, indent=4)
-        log(f"Benutzerdatei für {username} erstellt.")
+        log(f"Userdate for {username} created.")
 
-    def delete_user(self, username):
-        """Löscht einen Benutzer und dessen zugehörige Daten.""" 
+    def delete_user(self: any, username: str) -> None:
+        """Deletes user and related data.""" 
         if username not in self.users:
-            log(f"Fehler: Benutzer '{username}' existiert nicht.")
-            raise ValueError("Benutzer existiert nicht.")
+            log(f"Error: User '{username}' doesn't exist.")
+            raise ValueError(f"Error: User '{username}' doesn't exist.")
         
         log(f"Lösche Benutzer: {username}")
         
-        # Entferne den Benutzer aus der Benutzerliste
         del self.users[username]
         self._save_users()
         
@@ -143,6 +143,7 @@ class PasswordManagerAPI:
 def main():
     log("Starte Passwort-Manager API...")
     api = PasswordManagerAPI()
+    api.register_user("Hans", "hansi@lol.de", "123")
     
 if __name__ == "__main__":
     main()
