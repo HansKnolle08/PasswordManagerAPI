@@ -11,3 +11,12 @@
 
 # Ignore Python Cache .pyc files
 *.pyc
+
+# Ignore the virtual environment
+/.venv
+
+# Ignore the .vscode folder
+/.vscode
+
+# Ignore the test folder
+/test_json

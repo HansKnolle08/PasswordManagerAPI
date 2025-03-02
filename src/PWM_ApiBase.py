@@ -147,3 +147,20 @@ class PasswordManagerAPI:
         else:
             log(f"Error: No entry found for {service}.")
             raise ValueError("Entry not found.")
+        
+    def get_entry(self: 'PasswordManagerAPI', service: str) -> dict[str, str]:
+        """Returns the entry for the currently logged-in user."""
+        if not self.active_user:
+            log("Error: No user logged in.")
+            raise ValueError("No user logged in.")
+        
+        user_data_file: str = os.path.join(self.data_dir, "data", f"{self.active_user}.json")
+        with open(user_data_file, "r", encoding="utf-8") as file:
+            data: dict = json.load(file)
+        
+        if service in data["accounts"]:
+            log(f"Entry for {service} found.")
+            return data["accounts"][service]
+        else:
+            log(f"Error: No entry found for {service}.")
+            raise ValueError("Entry not found.")
