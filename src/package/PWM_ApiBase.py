@@ -167,3 +167,49 @@ class PasswordManagerAPI:
         else:
             log(f"Error: No entry found for {service}.")
             raise ValueError("Entry not found.")
+        
+    def update_email(self: 'PasswordManagerAPI', username: str, new_email: str) -> None:
+        """Updates the email address of a registered user."""
+        if username not in self.users:
+            log(f"Error: User '{username}' doesn't exist.")
+            raise ValueError(f"User '{username}' doesn't exist.")
+        
+        log(f"Updating email for user: {username}")
+        self.users[username]["email"] = new_email
+        self._save_users()
+        log(f"Email for user {username} updated to {new_email}.")
+
+    def change_password(self: 'PasswordManagerAPI', old_password: str, new_password: str) -> None:
+        """Changes the password of the currently logged-in user."""
+        if not self.active_user:
+            log("Error: No user logged in.")
+            raise ValueError("No user logged in.")
+        
+        if self.users[self.active_user]["password"] != self._hash_password(old_password):
+            log("Error: Incorrect old password.")
+            raise ValueError("Incorrect old password.")
+        
+        log(f"Changing password for user: {self.active_user}")
+        self.users[self.active_user]["password"] = self._hash_password(new_password)
+        self._save_users()
+        log("Password changed successfully.")
+
+    def list_all_entries(self: 'PasswordManagerAPI') -> dict[str, dict[str, str]]:
+        """Lists all entries for the currently logged-in user."""
+        if not self.active_user:
+            log("Error: No user logged in.")
+            raise ValueError("No user logged in.")
+        
+        user_data_file: str = os.path.join(self.data_dir, "data", f"{self.active_user}.json")
+        with open(user_data_file, "r", encoding="utf-8") as file:
+            data: dict = json.load(file)
+        
+        log(f"Listing all entries for user: {self.active_user}")
+        return data["accounts"]
+    
+    def export_data(self: 'PasswordManagerAPI', export_file: str) -> None:
+        """Exports all user data to a file."""
+        log("Exporting data...")
+        with open(export_file, "w", encoding="utf-8") as file:
+            json.dump(self.users, file, indent=4)
+        log(f"Data exported to {export_file}.")
