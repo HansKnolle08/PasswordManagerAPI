@@ -13,7 +13,6 @@ import hashlib
 ###########
 # Globals #
 ###########
-
 def log(message: str) -> None:
     """Returns a log Message."""
     print(f"[LOG] {message}")
@@ -148,18 +147,3 @@ class PasswordManagerAPI:
         else:
             log(f"Error: No entry found for {service}.")
             raise ValueError("Entry not found.")
-        
-
-################################
-# PasswordManagerAPI Main-Code #
-################################
-def main() -> None:
-    log("Starting Password Manager API...")
-    api = PasswordManagerAPI()
-    api.register_user("Hans", "hansi@lol.de", "123")
-    
-#############################
-# Entry point of the script #
-#############################
-if __name__ == "__main__":
-    main()
