@@ -20,3 +20,9 @@
 
 # Ignore the test folder
 /test_json
+
+# Ignore any export files
+/export
+
+# Ignore private test file
+/priv_test_file.py

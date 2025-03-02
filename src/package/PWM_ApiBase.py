@@ -11,6 +11,7 @@
 import json
 import os
 import hashlib
+from time import sleep
 
 ###########
 # Globals #
@@ -208,8 +209,43 @@ class PasswordManagerAPI:
         return data["accounts"]
     
     def export_data(self: 'PasswordManagerAPI', export_file: str) -> None:
-        """Exports all user data to a file."""
-        log("Exporting data...")
+        """Exports all data for the currently logged-in user to a file."""
+        if not self.active_user:
+            log("Error: No user logged in.")
+            raise ValueError("No user logged in.")
+        
+        log(f"Exporting data for user: {self.active_user}")
+        user_data_file: str = os.path.join(self.data_dir, "data", f"{self.active_user}.json")
+        with open(user_data_file, "r", encoding="utf-8") as file:
+            user_entries: dict = json.load(file)
+        
+        export_data = {
+            "username": self.active_user,
+            "email": self.users[self.active_user]["email"],
+            "password": self.users[self.active_user]["password"],
+            "entries": user_entries["accounts"]
+        }
+        
         with open(export_file, "w", encoding="utf-8") as file:
-            json.dump(self.users, file, indent=4)
-        log(f"Data exported to {export_file}.")
+            json.dump(export_data, file, indent=4)
+        log(f"Data for user {self.active_user} exported to {export_file}.")
+
+#############################
+# Entry Point Main Function #
+#############################
+def main() -> None:
+    """Main entry point for the Password Manager API."""
+    log("Starting Password Manager API...")
+    api: PasswordManagerAPI = PasswordManagerAPI()
+    api.login("testuser", "newpassword123")
+    sleep(2)
+    print(api.list_all_entries())
+    sleep(2)
+    api.export_data("export/export.json")
+    sleep(2)
+
+###############
+# Entry Point #
+###############
+if __name__ == "__main__":
+    main()

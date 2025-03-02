@@ -1,0 +1,12 @@
+{
+    "accounts": {
+        "GitHub": {
+            "username": "testuser_github",
+            "password": "password123"
+        },
+        "Twitter": {
+            "username": "testuser_twitter",
+            "password": "password123"
+        }
+    }
+}
