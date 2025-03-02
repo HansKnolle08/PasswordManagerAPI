@@ -8,7 +8,7 @@
 ###########
 import os
 import time
-from src.PWM_ApiBase import PasswordManagerAPI
+from src.package.PWM_ApiBase import PasswordManagerAPI
 
 ###########
 # Globals #
