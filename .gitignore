@@ -4,10 +4,10 @@
 # .gitignore for the project
 
 # Ignore all created .json files
-/src/json/data/*.json
+/src/package/json/data/*.json
 
 # Don't ignore template.json
-!/src/json/data/template.json
+!/src/package/json/data/template.json
 
 # Ignore Python Cache .pyc files
 *.pyc
@@ -26,3 +26,6 @@
 
 # Ignore private test file
 /priv_test_file.py
+
+# Ignore the cleanup script
+/scripts/cleanup.py

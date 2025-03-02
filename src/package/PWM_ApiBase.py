@@ -237,6 +237,8 @@ def main() -> None:
     """Main entry point for the Password Manager API."""
     log("Starting Password Manager API...")
     api: PasswordManagerAPI = PasswordManagerAPI()
+    api.register_user("testuser","email@mail.com", "newpassword123")
+    sleep(2)
     api.login("testuser", "newpassword123")
     sleep(2)
     print(api.list_all_entries())
