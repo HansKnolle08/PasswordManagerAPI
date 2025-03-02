@@ -23,6 +23,7 @@ json_base_dir: str = "C:\\Users\\Hansisi\\Documents\\Privat\\Dev\\Python\\Passwo
 # PasswordManagerAPI Main-Class #
 #################################
 class PasswordManagerAPI:
+    """Main class for the Password Manager API."""
     def __init__(self: 'PasswordManagerAPI', data_dir: str = json_base_dir) -> None:
         self.data_dir: str = data_dir
         self.users_file: str = os.path.join(self.data_dir, "users.json")

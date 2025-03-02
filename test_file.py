@@ -21,6 +21,7 @@ def log_test(message: str) -> None:
 # Testing #
 ###########
 def run_tests() -> None:
+    """Runs a series of tests on the PasswordManagerAPI."""
     test_dir: str = "test_json"
     os.makedirs(os.path.join(test_dir, "data"), exist_ok=True)
     api: PasswordManagerAPI = PasswordManagerAPI(data_dir=test_dir)
