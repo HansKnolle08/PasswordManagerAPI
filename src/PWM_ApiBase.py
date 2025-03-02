@@ -17,7 +17,7 @@ def log(message: str) -> None:
     """Returns a log Message."""
     print(f"[LOG] {message}")
 
-json_base_dir: str = "C:\\Users\\Hansisi\\Documents\\Privat\\Dev\\Python\\PasswordManagerAPI\\src\\json"
+json_base_dir: str = os.path.join(os.path.dirname(__file__), "json")
 
 #################################
 # PasswordManagerAPI Main-Class #
