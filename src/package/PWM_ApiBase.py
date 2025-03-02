@@ -3,6 +3,8 @@
 # Licensed under the MIT License
 # PasswordManagerAPI Base Source Code
 
+"""Base source code for the Password Manager API."""
+
 ###########
 # Imports #
 ###########
